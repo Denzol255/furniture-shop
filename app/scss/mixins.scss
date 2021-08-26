@@ -1,0 +1,32 @@
+$orangeColor: #E89F71;
+$mainColor: #3A3A3A;
+$darkGrayColor: #616161;
+$grayColor: #898989;
+$maxWidthLayout: 1440px;
+$maxWidthContainer: 1270px;
+// $md1: $maxWidthContainer + 12px;
+$md1: 1100px;
+$md2: 991.98px;
+$md3: 767.98px;
+$md4: 479.98px;
+
+//Responsive font
+@mixin adaptiv-font($pcSize, $mobSize, $maxSize) {
+	$addSize: $pcSize-$maxSize;
+	@if $maxSize == 1 {
+		// Только если меньше контейнера
+		font-size: $pcSize + "px";
+		@media (max-width: #{$maxWidthContainer + "px"}) {
+			font-size: calc(#{$mobSize + "px"} + #{$addSize}* ((100vh - 320px) / #{$maxWidthContainer - 320}));
+		} 
+	} @else if $maxSize==2 {
+		//Только если больше контейнера
+		font-size: $pcSize + px;
+		@media (min-width: #{$maxWidthContainer + px}) {
+			font-size: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320}));
+		}
+	} @else {
+		//Всегда
+		font-size: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320}));
+	}
+}
