@@ -261,6 +261,8 @@ window.onload = () => {
     if (gallery) {
       if (target.matches('._gallery img')) {
         galleryOpen(target.parentNode.getAttribute('href'), target);
+        gallery.classList.add('_gallery-created');
+        galleryPopup.classList.add('_active');
       }
       if (
         target.matches('.gallery-popup__close') ||
@@ -269,6 +271,14 @@ window.onload = () => {
         target.closest('.gallery-popup__close')
       ) {
         document.querySelector('.gallery-popup').classList.remove('_active');
+        document
+          .querySelectorAll('._current-popup-gallery-image')
+          .forEach(function (element) {
+            element.classList.remove('_current-popup-gallery-image');
+          });
+      }
+      if (target.matches('.gallery-popup__btn')) {
+        galleryPrevImage();
       }
     }
   });
