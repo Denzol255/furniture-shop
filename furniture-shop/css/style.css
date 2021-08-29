@@ -742,7 +742,6 @@ button {
 .gallery-popup {
   -webkit-overflow-scrolling: touch;
   z-index: 100;
-  padding: 30px 30px;
   position: fixed;
   top: 0;
   left: 0;
@@ -773,7 +772,6 @@ button {
 }
 
 .gallery-popup._active {
-  overflow: auto;
   visibility: visible;
   opacity: 1;
 }
@@ -783,9 +781,9 @@ button {
 }
 
 .gallery-popup__content {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100%;
+          flex: 0 0 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

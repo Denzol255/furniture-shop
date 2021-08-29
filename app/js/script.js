@@ -260,7 +260,7 @@ window.onload = () => {
     // Click on gallary image
     if (gallery) {
       if (target.matches('._gallery img')) {
-        galleryOpen(target.parentNode.getAttribute('href'), target);
+        galleryOpen(target);
         gallery.classList.add('_gallery-created');
         galleryPopup.classList.add('_active');
       }
@@ -277,8 +277,8 @@ window.onload = () => {
             element.classList.remove('_current-popup-gallery-image');
           });
       }
-      if (target.matches('.gallery-popup__btn')) {
-        galleryPrevImage();
+      if (target.matches('.gallery-popup__btn_right')) {
+        galleryNextImage();
       }
     }
   });

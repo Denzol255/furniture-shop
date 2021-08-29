@@ -1,7 +1,6 @@
 .gallery-popup {
 	-webkit-overflow-scrolling: touch;
 	z-index: 100;
-	padding: 30px 30px;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -24,7 +23,6 @@
 
 	}
 	&._active {
-		overflow: auto;
 		visibility: visible;
 		opacity: 1;
 		&::before {
@@ -39,7 +37,7 @@
 		// .gallery-popup__content
 
 		&__content {
-			flex: 1 1 auto;
+			flex: 0 0 100%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
