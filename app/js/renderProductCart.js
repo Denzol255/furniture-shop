@@ -4,8 +4,9 @@ let productList = [];
 
 const productsWrapper = document.querySelector('.cart-header__body');
 const productsUl = document.createElement('ul');
-productsUl.classList.add('cart-header__list', 'cart-list');
 const checkoutBtn = document.createElement('a');
+
+productsUl.classList.add('cart-header__list', 'cart-list');
 checkoutBtn.setAttribute('href', '#');
 checkoutBtn.classList.add('cart-header__checkout');
 checkoutBtn.textContent = 'Checkout';
@@ -17,6 +18,7 @@ productsWrapper.insertAdjacentHTML(
       </div>
       `
 );
+
 const renderProducts = (data) => {
   if (!productsWrapper.classList.contains('_not-empty')) {
     productsWrapper.classList.add('_not-empty');
@@ -34,6 +36,7 @@ const renderProducts = (data) => {
       'beforeend',
       `
 				<a href="#" class="item-list__title">${item.title}</a>
+        <span class="item-list__quantity">${item.quantity}</span>
 				<span class="item-list__price">${item.price}</span>
 
 			`

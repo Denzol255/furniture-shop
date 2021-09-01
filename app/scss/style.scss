@@ -1,30 +1,32 @@
 // Normalize
-@import "../../node_modules/normalize.css/normalize";
+@import '../../node_modules/normalize.css/normalize';
 // Swiper-slider
-@import "../../node_modules/swiper/swiper-bundle.min.css";
+@import '../../node_modules/swiper/swiper-bundle.min.css';
 // Fonts
-@import "font.scss";
+@import 'font.scss';
 // Mixins
-@import "mixins.scss";
+@import 'mixins.scss';
 // Icons
-@import "icons.scss";
+@import 'icons.scss';
 // Settings
-@import "settings.scss";
+@import 'settings.scss';
 // Gallery popup
-@import "gallery-popup.scss";
+@import 'gallery-popup.scss';
 // Block header
-@import "blocks/header.scss";
+@import 'blocks/header.scss';
 // Block footer
-@import "blocks/footer.scss";
+@import 'blocks/footer.scss';
 // Block main slider
-@import "blocks/main-slider.scss";
+@import 'blocks/main-slider.scss';
 // Block advantages
-@import "blocks/advantages.scss";
+@import 'blocks/advantages.scss';
 // Block products
-@import "blocks/products.scss";
+@import 'blocks/products.scss';
 // Block rooms
-@import "blocks/rooms.scss";
+@import 'blocks/rooms.scss';
 // Block tips
-@import "blocks/tips.scss";
+@import 'blocks/tips.scss';
 // Block furniture
-@import "blocks/furniture.scss";
+@import 'blocks/furniture.scss';
+// Styles for flyImage
+@import 'fly-image.scss';

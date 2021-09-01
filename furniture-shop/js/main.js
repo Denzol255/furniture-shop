@@ -32,10 +32,12 @@ testWebP(function (support) {
 'use strict';
 
 window.onload = () => {
-  // Variables ============================================================================================
+  // Variables ===========================================================================================
+  const cart = document.querySelector('.cart-header');
   const cartList = document.querySelector('.cart-header__body');
-  const gallery = document.querySelector('._gallery');
-  const galleryImages = gallery.querySelectorAll('img');
+  const galleryPopup = document.querySelector('.gallery-popup');
+  const cartHeaderIcon = document.querySelector('.cart-header__icon');
+
   // Functions ============================================================================================
   // IE check
   function isIE() {
@@ -196,6 +198,13 @@ window.onload = () => {
     e.preventDefault();
     const target = e.target;
 
+    // Variables, which we get after click on needed target
+    const galleryPopupContentImages = document.querySelectorAll(
+      '.gallery-popup__content img'
+    );
+    const gallery = document.querySelector('._gallery');
+    //============================================================================
+
     // Click on menu items to show the sub-menu list, if it is mobile device and width > 768
     if (window.innerWidth > 768 && isMobile.any()) {
       if (
@@ -239,7 +248,7 @@ window.onload = () => {
       document.querySelector('.products__footer').remove();
     }
 
-    // Click on add to cart button
+    // Click add to cart button
     if (
       target.matches('.actions-product__button') ||
       target.closest('.actions-product__button')
@@ -247,22 +256,84 @@ window.onload = () => {
       const productCards = document.querySelectorAll('.item-product');
       productCards.forEach((item) => {
         if (target.dataset.btnpr === item.dataset.pr) {
-          const productTitle = item.querySelector(
-            '.item-product__title'
-          ).textContent;
-          const productPrice = item.querySelector(
-            '.item-product__price_real'
-          ).textContent;
-          const productId = item.dataset.pr;
+          if (!target.classList.contains('__hold')) {
+            target.classList.add('_hold');
+            target.classList.add('_fly');
+            const productTitle = item.querySelector(
+              '.item-product__title'
+            ).textContent;
+            const productPrice = item.querySelector(
+              '.item-product__price_real'
+            ).textContent;
+            const productImage = item.querySelector('.item-product__image');
+            const productId = item.dataset.pr;
+            const cartQuantity = document.querySelector(
+              '.cart-header__quantity'
+            );
+            const productImageFly = productImage.cloneNode(true);
+            const productImageFlyWidth = productImage.offsetWidth;
+            const productImageFlyHeight = productImage.offsetHeight;
+            const productImageFlyTop = productImage.getBoundingClientRect().top;
+            const productImageFlyLeft =
+              productImage.getBoundingClientRect().left;
 
-          const newProduct = {
-            id: productId,
-            title: productTitle,
-            price: productPrice,
-          };
+            productImageFly.setAttribute('class', '_flyImage _ibg');
+            productImageFly.style.cssText = `
+            left: ${productImageFlyLeft}px;
+            top: ${productImageFlyTop}px;
+            width: ${productImageFlyWidth}px;
+            height: ${productImageFlyHeight}px;
+            `;
 
-          productList.push(newProduct);
-          renderProducts(productList);
+            document.body.append(productImageFly);
+
+            const cartFlyLeft = cartHeaderIcon.getBoundingClientRect().left;
+            const cartFlyTop = cartHeaderIcon.getBoundingClientRect().top;
+
+            productImageFly.style.cssText = `
+            left: ${cartFlyLeft}px;
+            top: ${cartFlyTop}px;
+            width: 0px;
+            height: 0px;
+            opacity: 0;
+            `;
+
+            productImageFly.addEventListener('transitionend', () => {
+              if (target.classList.contains('_fly')) {
+                productImageFly.remove();
+                target.classList.remove('_fly');
+              }
+            });
+            if (cartQuantity) {
+              cartQuantity.innerHTML = ++cartQuantity.innerHTML;
+            } else {
+              cart.insertAdjacentHTML(
+                'beforeend',
+                `<span class="cart-header__quantity">1</span>`
+              );
+            }
+            const newProduct = {
+              id: productId,
+              title: productTitle,
+              price: productPrice,
+              quantity: 1,
+            };
+            let hasProduct = true;
+            if (productList.length > 0) {
+              productList.forEach((product) => {
+                if (product.id === newProduct.id) {
+                  product.quantity++;
+                  hasProduct = !hasProduct;
+                }
+              });
+            }
+
+            if (hasProduct) {
+              productList.push(newProduct);
+            }
+
+            renderProducts(productList);
+          }
         }
       });
     }
@@ -291,7 +362,7 @@ window.onload = () => {
     // Click on gallary image
     if (gallery) {
       if (target.matches('._gallery img')) {
-        galleryOpen(target);
+        galleryOpen(target, gallery, galleryPopupContent);
         gallery.classList.add('_gallery-created');
         galleryPopup.classList.add('_active');
       }
@@ -308,13 +379,16 @@ window.onload = () => {
             element.classList.remove('_current-popup-gallery-image');
           });
       }
-      if (target.matches('.gallery-popup__btn_right')) {
-        galleryNextImage();
+      if (target.matches('.gallery-popup__btn_next')) {
+        galleryLeafImages(galleryPopupContentImages, 'next');
+      }
+      if (target.matches('.gallery-popup__btn_prev')) {
+        galleryLeafImages(galleryPopupContentImages, 'prev');
       }
     }
   });
 
-  // Header scroll and changing header form
+  // Header scroll and changing header height
   const headerElem = document.querySelector('.header');
 
   const callback = (entries, observer) => {
@@ -736,7 +810,7 @@ if (document.querySelector('.slider-tips__body')) {
       // when window width is >= 992px
       992: {
         slidesPerView: 3,
-        spaceBetween: 32,
+        spaceBetween: 33,
       },
     },
   });
@@ -748,8 +822,9 @@ let productList = [];
 
 const productsWrapper = document.querySelector('.cart-header__body');
 const productsUl = document.createElement('ul');
-productsUl.classList.add('cart-header__list', 'cart-list');
 const checkoutBtn = document.createElement('a');
+
+productsUl.classList.add('cart-header__list', 'cart-list');
 checkoutBtn.setAttribute('href', '#');
 checkoutBtn.classList.add('cart-header__checkout');
 checkoutBtn.textContent = 'Checkout';
@@ -761,6 +836,7 @@ productsWrapper.insertAdjacentHTML(
       </div>
       `
 );
+
 const renderProducts = (data) => {
   if (!productsWrapper.classList.contains('_not-empty')) {
     productsWrapper.classList.add('_not-empty');
@@ -778,6 +854,7 @@ const renderProducts = (data) => {
       'beforeend',
       `
 				<a href="#" class="item-list__title">${item.title}</a>
+        <span class="item-list__quantity">${item.quantity}</span>
 				<span class="item-list__price">${item.price}</span>
 
 			`
@@ -807,18 +884,19 @@ const onMenuLinkClick = (target, e) => {
 };
 ;
 // Gallary
-const gallery = document.querySelector('._gallery');
+
 const galleryPopup = document.querySelector('.gallery-popup');
-const galleryImages = document.querySelectorAll('._gallery img');
 const galleryPopupContent = document.querySelector('.gallery-popup__content');
 
-const galleryOpen = (target) => {
+const galleryOpen = (target, gallery) => {
+  const galleryImages = gallery.querySelectorAll('img');
   target.classList.add('_current-gallery-image');
   if (!gallery.classList.contains('_gallery-created')) {
     galleryImages.forEach((image, i) => {
-      image.setAttribute('data-gallery', `${i}`);
       const popupImageWrapper = document.createElement('div');
       const popupImage = document.createElement('img');
+
+      image.setAttribute('data-gallery', `${i}`);
       popupImageWrapper.classList.add('gallery-popup__image');
       popupImage.src = `${image.getAttribute('src')}`;
       popupImage.setAttribute('data-pg', `${i}`);
@@ -849,37 +927,30 @@ const removeCurrentImageClass = () => {
     });
 };
 
-const galleryNextImage = () => {
-  const galleryPopupContentImages = document.querySelectorAll(
-    '.gallery-popup__content img'
+const galleryLeafImages = (popupImages, arrow) => {
+  let currentImage = document.querySelector(
+    '._current-popup-gallery-image img'
   );
-  const firstImage = document.querySelector('[data-pg="0"]');
-  let currentImage = document.querySelector('._current-popup-gallery-image img')
-    .dataset.pg;
-  let nextImage = null;
-  if (+currentImage >= galleryPopupContentImages.length - 1) {
-    nextImage = 0;
-    firstImage.parentNode.classList.add('_current-popup-gallery-image');
+  let indexOfCurrentImage = currentImage.dataset.pg;
+
+  if (arrow === 'next') {
+    if (+indexOfCurrentImage >= popupImages.length - 1) {
+      indexOfCurrentImage = 0;
+    } else {
+      ++indexOfCurrentImage;
+    }
   } else {
-    nextImage = ++currentImage;
+    if (+indexOfCurrentImage <= 0) {
+      indexOfCurrentImage = popupImages.length - 1;
+    } else {
+      --indexOfCurrentImage;
+    }
   }
-  console.log('nextimg', nextImage);
-  console.log('legnth', galleryPopupContentImages.length);
   removeCurrentImageClass();
-  galleryPopupContentImages.forEach((image) => {
-    if (+image.dataset.pg === nextImage) {
+  popupImages.forEach((image) => {
+    if (+image.dataset.pg === indexOfCurrentImage) {
       image.parentNode.classList.add('_current-popup-gallery-image');
     }
   });
 };
-
-// const galleryPrevImage = () => {
-//   const allGalleryImages = document.querySelectorAll('._gallery img');
-//   console.log(allGalleryImages);
-//   const imagesURL = [];
-//   allGalleryImages.forEach((image) => {
-//     imagesURL.push(image.getAttribute('src'));
-//   });
-//   console.log('', imagesURL);
-// };
 ;

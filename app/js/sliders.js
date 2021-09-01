@@ -86,7 +86,7 @@ if (document.querySelector('.slider-tips__body')) {
       // when window width is >= 992px
       992: {
         slidesPerView: 3,
-        spaceBetween: 32,
+        spaceBetween: 33,
       },
     },
   });

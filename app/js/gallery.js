@@ -1,16 +1,17 @@
 // Gallary
-const gallery = document.querySelector('._gallery');
+
 const galleryPopup = document.querySelector('.gallery-popup');
-const galleryImages = document.querySelectorAll('._gallery img');
 const galleryPopupContent = document.querySelector('.gallery-popup__content');
 
-const galleryOpen = (target) => {
+const galleryOpen = (target, gallery) => {
+  const galleryImages = gallery.querySelectorAll('img');
   target.classList.add('_current-gallery-image');
   if (!gallery.classList.contains('_gallery-created')) {
     galleryImages.forEach((image, i) => {
-      image.setAttribute('data-gallery', `${i}`);
       const popupImageWrapper = document.createElement('div');
       const popupImage = document.createElement('img');
+
+      image.setAttribute('data-gallery', `${i}`);
       popupImageWrapper.classList.add('gallery-popup__image');
       popupImage.src = `${image.getAttribute('src')}`;
       popupImage.setAttribute('data-pg', `${i}`);
@@ -41,36 +42,29 @@ const removeCurrentImageClass = () => {
     });
 };
 
-const galleryNextImage = () => {
-  const galleryPopupContentImages = document.querySelectorAll(
-    '.gallery-popup__content img'
+const galleryLeafImages = (popupImages, arrow) => {
+  let currentImage = document.querySelector(
+    '._current-popup-gallery-image img'
   );
-  const firstImage = document.querySelector('[data-pg="0"]');
-  let currentImage = document.querySelector('._current-popup-gallery-image img')
-    .dataset.pg;
-  let nextImage = null;
-  if (+currentImage >= galleryPopupContentImages.length - 1) {
-    nextImage = 0;
-    firstImage.parentNode.classList.add('_current-popup-gallery-image');
+  let indexOfCurrentImage = currentImage.dataset.pg;
+
+  if (arrow === 'next') {
+    if (+indexOfCurrentImage >= popupImages.length - 1) {
+      indexOfCurrentImage = 0;
+    } else {
+      ++indexOfCurrentImage;
+    }
   } else {
-    nextImage = ++currentImage;
+    if (+indexOfCurrentImage <= 0) {
+      indexOfCurrentImage = popupImages.length - 1;
+    } else {
+      --indexOfCurrentImage;
+    }
   }
-  console.log('nextimg', nextImage);
-  console.log('legnth', galleryPopupContentImages.length);
   removeCurrentImageClass();
-  galleryPopupContentImages.forEach((image) => {
-    if (+image.dataset.pg === nextImage) {
+  popupImages.forEach((image) => {
+    if (+image.dataset.pg === indexOfCurrentImage) {
       image.parentNode.classList.add('_current-popup-gallery-image');
     }
   });
 };
-
-// const galleryPrevImage = () => {
-//   const allGalleryImages = document.querySelectorAll('._gallery img');
-//   console.log(allGalleryImages);
-//   const imagesURL = [];
-//   allGalleryImages.forEach((image) => {
-//     imagesURL.push(image.getAttribute('src'));
-//   });
-//   console.log('', imagesURL);
-// };

@@ -514,7 +514,7 @@ ul li {
 }
 
 body {
-  font-family: "Gilroy";
+  font-family: 'Gilroy';
   font-size: 16px;
   color: #3A3A3A;
 }
@@ -657,7 +657,7 @@ button {
 }
 
 .swiper-pagination-bullet::after {
-  content: "";
+  content: '';
   width: 11px;
   height: 11px;
   background-color: #6d6a6a;
@@ -668,7 +668,7 @@ button {
 }
 
 .swiper-pagination-bullet::before {
-  content: "";
+  content: '';
   position: absolute;
   width: 100%;
   height: 100%;
@@ -758,7 +758,7 @@ button {
 }
 
 .gallery-popup::before {
-  content: "";
+  content: '';
   background-color: rgba(0, 0, 0, 0.9);
   position: fixed;
   width: 100%;
@@ -819,14 +819,14 @@ button {
   font-size: 18px;
 }
 
-.gallery-popup__btn_left {
+.gallery-popup__btn_prev {
   left: 30px;
   -webkit-transform: translate(0, -50%) rotate(90deg);
       -ms-transform: translate(0, -50%) rotate(90deg);
           transform: translate(0, -50%) rotate(90deg);
 }
 
-.gallery-popup__btn_right {
+.gallery-popup__btn_next {
   right: 30px;
   -webkit-transform: translate(0, -50%) rotate(-90deg);
       -ms-transform: translate(0, -50%) rotate(-90deg);
@@ -1049,7 +1049,7 @@ button {
   display: block;
 }
 
-.cart-header__icon span {
+.cart-header__quantity {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -1071,13 +1071,10 @@ button {
 }
 
 .cart-header__body {
-  position: absolute;
-  top: 150%;
-  right: 50%;
-  -webkit-transform: translateX(45%);
-      -ms-transform: translateX(45%);
-          transform: translateX(45%);
-  min-width: 250px;
+  position: fixed;
+  top: 90px;
+  right: 0;
+  min-width: 290px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1091,6 +1088,9 @@ button {
   background-color: gray;
   color: #fff;
   padding: 20px 10px;
+  -webkit-transform: translate(100%, 0);
+      -ms-transform: translate(100%, 0);
+          transform: translate(100%, 0);
   visibility: hidden;
   opacity: 0;
   -webkit-transition: all 0.3s ease 0s;
@@ -1099,20 +1099,11 @@ button {
 }
 
 .cart-header__body._active-cart {
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
   visibility: visible;
   opacity: 1;
-}
-
-.cart-header__body::after {
-  content: '';
-  position: absolute;
-  top: -20px;
-  left: 51.5%;
-  border: 10px solid transparent;
-  border-top: 10px solid gray;
-  -webkit-transform: rotate(-180deg);
-      -ms-transform: rotate(-180deg);
-          transform: rotate(-180deg);
 }
 
 .cart-list,
@@ -1163,8 +1154,6 @@ button {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
 }
 
 .item-list:not(:last-child) {
@@ -1172,11 +1161,23 @@ button {
 }
 
 .item-list__title {
-  margin-right: 10px;
-  margin-bottom: 5px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100px;
+          flex: 0 0 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
   -webkit-transition: color 0.3s ease 0s;
   -o-transition: color 0.3s ease 0s;
   transition: color 0.3s ease 0s;
+}
+
+.item-list__price {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100px;
+          flex: 0 0 100px;
+  text-align: right;
 }
 
 .icon-menu {
@@ -2177,6 +2178,15 @@ button {
   max-width: initial;
 }
 
+._flyImage._ibg {
+  opacity: 1;
+  position: fixed;
+  z-index: 100;
+  -webkit-transition: all 1s ease 0s;
+  -o-transition: all 1s ease 0s;
+  transition: all 1s ease 0s;
+}
+
 @media (min-width: 767.98px) {
   .menu__list {
     display: -webkit-box;
@@ -2378,6 +2388,10 @@ button {
     transition: all 0.3s ease 0s;
   }
 
+  .cart-header__body {
+    top: 70px;
+  }
+
   .footer__main {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
@@ -2535,7 +2549,7 @@ button {
   }
 
   .menu__body::before {
-    content: "";
+    content: '';
     position: fixed;
     width: 100%;
     height: 50px;
@@ -2592,6 +2606,10 @@ button {
 
   .menu__sub-link {
     font-size: 18px;
+  }
+
+  .cart-header__body {
+    top: 55px;
   }
 
   .icon-menu {
@@ -2784,6 +2802,11 @@ button {
   .actions-header__item_user {
     width: 35px;
     height: 35px;
+  }
+
+  .cart-header__body {
+    top: 50px;
+    width: 100%;
   }
 
   .footer-container {
