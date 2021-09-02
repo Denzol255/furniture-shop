@@ -2,10 +2,9 @@
 
 window.onload = () => {
   // Variables ===========================================================================================
-  const cart = document.querySelector('.cart-header');
+
   const cartList = document.querySelector('.cart-header__body');
   const galleryPopup = document.querySelector('.gallery-popup');
-  const cartHeaderIcon = document.querySelector('.cart-header__icon');
 
   // Functions ============================================================================================
   // IE check
@@ -66,101 +65,6 @@ window.onload = () => {
     }
   }
 
-  // Add products
-  const addProducts = () => {
-    fetch('json/products.json')
-      .then((responce) => {
-        if (responce.status !== 200) {
-          console.log(
-            'Looks like there was a problem. Status Code: ' + response.status
-          );
-          return;
-        }
-        responce.json().then((data) => {
-          if (document.querySelector('.products__items')) {
-            for (const product of data.products) {
-              const productItem = document.createElement('article');
-              productItem.setAttribute('data-pr', product.id ? product.id : '');
-              productItem.classList.add('products__item', 'item-product');
-              productItem.insertAdjacentHTML(
-                'afterbegin',
-                `<a href="" class="item-product__image _ibg">
-                <img src="img/products/${
-                  product.image ? product.image : '01.jpg'
-                }" alt="product ${product.id ? product.id : ''}">
-              </a>
-              <div class="item-product__body">
-                <div class="item-product__content">
-                  <h5 class="item-product__title">${
-                    product.title ? product.title : 'Chair, sofa or table'
-                  }</h5>
-                  <p class="item-product__text">${
-                    product.text
-                      ? product.text
-                      : 'The best choise in furniture collection'
-                  }</p>
-                </div>
-                ${
-                  product.price
-                    ? `<div class="item-product__prices">
-                    <span class="item-product__price item-product__price_real">Rp ${
-                      product.price
-                    }</span>
-                    ${
-                      product.priceOld
-                        ? `<span class="item-product__price item-product__price_old">Rp ${product.priceOld}</span>`
-                        : ''
-                    }
-                  </div>`
-                    : ''
-                }
-                <div class="item-product__actions actions-product">
-                  <div class="actions-product__body">
-                    <a href="${product.url ? product.url : '#'}" data-btnpr=${
-                  product.id
-                } class="actions-product__button btn btn_white">Add to cart</a>
-                    <a href="${
-                      product.shareUrl ? product.shareUrl : '#'
-                    }" class="actions-product__link _icon-share">Share</a>
-                    <a href="${
-                      product.likeUrl ? product.likeUrl : '#'
-                    }" class="actions-product__link _icon-favorite">Like</a>
-                  </div>
-                </div>
-              </div>`
-              );
-              if (product.labels) {
-                const productLabelsWrapper = document.createElement('div');
-                productLabelsWrapper.classList.add('item-product__labels');
-                for (const label of product.labels) {
-                  if (label.type === 'sale') {
-                    productLabelsWrapper.insertAdjacentHTML(
-                      'beforeend',
-                      `
-                  <span class="item-product__label item-product__label_${label.type}">${label.value}</span>
-                `
-                    );
-                  } else if (label.type === 'new') {
-                    productLabelsWrapper.insertAdjacentHTML(
-                      'beforeend',
-                      `
-                  <span class="item-product__label item-product__label_${label.type}">${label.value}</span>
-                `
-                    );
-                  }
-                }
-                productItem.prepend(productLabelsWrapper);
-              }
-              document.querySelector('.products__items').append(productItem);
-            }
-          }
-        });
-      })
-      .catch((err) => {
-        throw new Error('Fetch Error :-S', err);
-      });
-  };
-
   // Main script ==========================================================================================
   // Actions for click
   document.addEventListener('click', (e) => {
@@ -206,6 +110,7 @@ window.onload = () => {
     if (target.closest('.icon-menu')) {
       document.querySelector('.menu__body').classList.toggle('active');
       document.querySelector('.icon-menu').classList.toggle('_active');
+      document.body.classList.toggle('_scroll--lock');
     }
 
     // Click on button show more
@@ -213,7 +118,7 @@ window.onload = () => {
       target.matches('.products__more') ||
       target.closest('.products__more')
     ) {
-      addProducts();
+      showMore();
       document.querySelector('.products__footer').remove();
     }
 
@@ -222,89 +127,7 @@ window.onload = () => {
       target.matches('.actions-product__button') ||
       target.closest('.actions-product__button')
     ) {
-      const productCards = document.querySelectorAll('.item-product');
-      productCards.forEach((item) => {
-        if (target.dataset.btnpr === item.dataset.pr) {
-          if (!target.classList.contains('__hold')) {
-            target.classList.add('_hold');
-            target.classList.add('_fly');
-            const productTitle = item.querySelector(
-              '.item-product__title'
-            ).textContent;
-            const productPrice = item.querySelector(
-              '.item-product__price_real'
-            ).textContent;
-            const productImage = item.querySelector('.item-product__image');
-            const productId = item.dataset.pr;
-            const cartQuantity = document.querySelector(
-              '.cart-header__quantity'
-            );
-            const productImageFly = productImage.cloneNode(true);
-            const productImageFlyWidth = productImage.offsetWidth;
-            const productImageFlyHeight = productImage.offsetHeight;
-            const productImageFlyTop = productImage.getBoundingClientRect().top;
-            const productImageFlyLeft =
-              productImage.getBoundingClientRect().left;
-
-            productImageFly.setAttribute('class', '_flyImage _ibg');
-            productImageFly.style.cssText = `
-            left: ${productImageFlyLeft}px;
-            top: ${productImageFlyTop}px;
-            width: ${productImageFlyWidth}px;
-            height: ${productImageFlyHeight}px;
-            `;
-
-            document.body.append(productImageFly);
-
-            const cartFlyLeft = cartHeaderIcon.getBoundingClientRect().left;
-            const cartFlyTop = cartHeaderIcon.getBoundingClientRect().top;
-
-            productImageFly.style.cssText = `
-            left: ${cartFlyLeft}px;
-            top: ${cartFlyTop}px;
-            width: 0px;
-            height: 0px;
-            opacity: 0;
-            `;
-
-            productImageFly.addEventListener('transitionend', () => {
-              if (target.classList.contains('_fly')) {
-                productImageFly.remove();
-                target.classList.remove('_fly');
-              }
-            });
-            if (cartQuantity) {
-              cartQuantity.innerHTML = ++cartQuantity.innerHTML;
-            } else {
-              cart.insertAdjacentHTML(
-                'beforeend',
-                `<span class="cart-header__quantity">1</span>`
-              );
-            }
-            const newProduct = {
-              id: productId,
-              title: productTitle,
-              price: productPrice,
-              quantity: 1,
-            };
-            let hasProduct = true;
-            if (productList.length > 0) {
-              productList.forEach((product) => {
-                if (product.id === newProduct.id) {
-                  product.quantity++;
-                  hasProduct = !hasProduct;
-                }
-              });
-            }
-
-            if (hasProduct) {
-              productList.push(newProduct);
-            }
-
-            renderProducts(productList);
-          }
-        }
-      });
+      addToCart(target);
     }
 
     // Click on cart
@@ -328,13 +151,16 @@ window.onload = () => {
     if (target.matches('.cart-header__checkout')) {
     }
 
-    // Click on gallary image
+    // Gallery
     if (gallery) {
+      // Click on gallary image
       if (target.matches('._gallery img')) {
         galleryOpen(target, gallery, galleryPopupContent);
         gallery.classList.add('_gallery-created');
         galleryPopup.classList.add('_active');
+        document.body.classList.add('_scroll--lock');
       }
+      // Close gallery
       if (
         target.matches('.gallery-popup__close') ||
         target.matches('.gallery-popup') ||
@@ -347,10 +173,13 @@ window.onload = () => {
           .forEach(function (element) {
             element.classList.remove('_current-popup-gallery-image');
           });
+        document.body.classList.remove('_scroll--lock');
       }
+      // Click on gallery arrow next
       if (target.matches('.gallery-popup__btn_next')) {
         galleryLeafImages(galleryPopupContentImages, 'next');
       }
+      // Click on gallery arrow prev
       if (target.matches('.gallery-popup__btn_prev')) {
         galleryLeafImages(galleryPopupContentImages, 'prev');
       }
@@ -369,4 +198,55 @@ window.onload = () => {
   const headerObserver = new IntersectionObserver(callback);
 
   headerObserver.observe(headerElem);
+
+  // Gallery mouse moving effect
+  const furniture = document.querySelector('.furniture__body');
+  if (furniture && !isMobile.any()) {
+    const furnitureItems = document.querySelector('.furniture__items');
+    const furnitureColumn = document.querySelectorAll('.furniture__column');
+
+    // Animation speed
+    const speed = furniture.dataset.speed;
+
+    let positionX = 0;
+    let coordXprocent = 0;
+
+    function setMouseGalleryStyle() {
+      let furnitureItemsWidth = 0;
+      furnitureColumn.forEach((element) => {
+        furnitureItemsWidth += element.offsetWidth;
+      });
+
+      const furnitureDifference = furnitureItemsWidth - furniture.offsetWidth;
+      const distX = Math.floor(coordXprocent - positionX);
+
+      positionX = positionX + distX * speed;
+
+      let position = (furnitureDifference / 200) * positionX;
+
+      furnitureItems.style.cssText = `transform: translate3d(${-position}px, 0, 0);`;
+
+      if (Math.abs(distX) > 0) {
+        requestAnimationFrame(setMouseGalleryStyle);
+      } else {
+        furniture.classList.remove('_init');
+      }
+    }
+
+    furniture.addEventListener('mousemove', (e) => {
+      // Width of visible part
+      const furnitureWidth = furniture.offsetWidth;
+
+      // The middle of visible part === 0
+      const coordX = e.pageX - furnitureWidth / 2;
+
+      // Getting percents
+      coordXprocent = (coordX / furnitureWidth) * 200;
+
+      if (!furniture.classList.contains('_init')) {
+        requestAnimationFrame(setMouseGalleryStyle);
+        furniture.classList.add('_init');
+      }
+    });
+  }
 };

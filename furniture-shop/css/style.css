@@ -519,7 +519,7 @@ body {
   color: #3A3A3A;
 }
 
-.scroll--lock {
+._scroll--lock {
   overflow: hidden;
 }
 
@@ -1777,6 +1777,11 @@ button {
   margin: 0px 0px 24px 0px;
 }
 
+.actions-product__button._hold {
+  opacity: 0.2;
+  cursor: default;
+}
+
 .actions-product__link {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2093,7 +2098,6 @@ button {
 
 .furniture__body {
   position: relative;
-  overflow: auto;
 }
 
 .furniture__items {

@@ -3,6 +3,14 @@
 const galleryPopup = document.querySelector('.gallery-popup');
 const galleryPopupContent = document.querySelector('.gallery-popup__content');
 
+const removeCurrentImageClass = () => {
+  document
+    .querySelectorAll('._current-popup-gallery-image')
+    .forEach(function (element) {
+      element.classList.remove('_current-popup-gallery-image');
+    });
+};
+
 const galleryOpen = (target, gallery) => {
   const galleryImages = gallery.querySelectorAll('img');
   target.classList.add('_current-gallery-image');
@@ -32,14 +40,6 @@ const galleryOpen = (target, gallery) => {
       }
     });
   }
-};
-
-const removeCurrentImageClass = () => {
-  document
-    .querySelectorAll('._current-popup-gallery-image')
-    .forEach(function (element) {
-      element.classList.remove('_current-popup-gallery-image');
-    });
 };
 
 const galleryLeafImages = (popupImages, arrow) => {

@@ -1,150 +1,147 @@
 .page {
+  // .page__furniture
 
-		// .page__furniture
-
-		&__furniture {
-		}
+  &__furniture {
+  }
 }
 .furniture {
-		padding-bottom: 85px;
-		@media (max-width: $md2) {
-			padding-bottom: 70px;
-		}
-		@media (max-width: $md3) {
-			padding-bottom: 55px;
-		}
-		@media (max-width: $md4) {
-			padding-bottom: 40px;
-		}
-		// .furniture__container
+  padding-bottom: 85px;
+  @media (max-width: $md2) {
+    padding-bottom: 70px;
+  }
+  @media (max-width: $md3) {
+    padding-bottom: 55px;
+  }
+  @media (max-width: $md4) {
+    padding-bottom: 40px;
+  }
+  // .furniture__container
 
-		&__container {
-		}
+  &__container {
+  }
 
-		// .furniture__label
+  // .furniture__label
 
-		&__label {
-			text-align: center;
-			font-weight: 600;
-			font-size: 20px;
-			line-height: 150%;
-			color: $darkGrayColor;
-			&:not(:last-child){
-				margin: 0px 0px 8px/20px *1em 0px;
-			}
-			@media (max-width: $md3) {
-				font-size: 18px;
-			}
-			@media (max-width: $md4) {
-				font-size: 16px;
-			}
-		}
+  &__label {
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 150%;
+    color: $darkGrayColor;
+    &:not(:last-child) {
+      margin: 0px 0px 8px/20px * 1em 0px;
+    }
+    @media (max-width: $md3) {
+      font-size: 18px;
+    }
+    @media (max-width: $md4) {
+      font-size: 16px;
+    }
+  }
 
-		// .furniture__title
+  // .furniture__title
 
-		&__title {
-			margin: 0px 0px 32px/40px * 1em 0px;
-		}
+  &__title {
+    margin: 0px 0px 32px/40px * 1em 0px;
+  }
 
-		// .furniture__body
+  // .furniture__body
 
-		&__body {
-			position: relative;
-			overflow: auto;
-			@media (any-hover: none) {
-				overflow: auto;
-				-webkit-overflow-scrolling: touch;
-			}
-		}
+  &__body {
+    position: relative;
+    @media (any-hover: none) {
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
 
-		// .furniture__items
+  // .furniture__items
 
-		&__items {
-			display: grid;
-			grid-template-columns: auto;
-			grid-auto-flow: column;
-			align-items: center;
-			gap: 16px;
-			@media (any-hover: hover) {
-				justify-content: center;
-			}
-		}
+  &__items {
+    display: grid;
+    grid-template-columns: auto;
+    grid-auto-flow: column;
+    align-items: center;
+    gap: 16px;
+    @media (any-hover: hover) {
+      justify-content: center;
+    }
+  }
 
-		// .furniture__column
+  // .furniture__column
 
-		&__column {
-			display: flex;
-			flex-wrap: wrap;
-			align-items: center;
-			margin: 0 -8px;
-			&:first-child{
-				justify-content: flex-end;
-			}
-		}
+  &__column {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0 -8px;
+    &:first-child {
+      justify-content: flex-end;
+    }
+  }
 
-		// .furniture__row
+  // .furniture__row
 
-		&__row {
-			display: inline-grid;
-			padding: 0 8px;
-			gap: 16px;
-			grid-template-columns: auto;
-			grid-auto-flow: column;
-			&:not(:last-child){
-				margin: 0px 0px 16px 0px;
-			}
-		}
+  &__row {
+    display: inline-grid;
+    padding: 0 8px;
+    gap: 16px;
+    grid-template-columns: auto;
+    grid-auto-flow: column;
+    &:not(:last-child) {
+      margin: 0px 0px 16px 0px;
+    }
+  }
 }
 .row-furniture {
+  // .row-furniture_left-top
 
-		// .row-furniture_left-top
+  &_left-top {
+    justify-content: end;
+    align-items: end;
+  }
 
-		&_left-top {
-			justify-content: end;
-			align-items: end;
-		}
+  // .row-furniture_left-bottom
 
-		// .row-furniture_left-bottom
+  &_left-bottom {
+    justify-content: end;
+    align-items: start;
+  }
 
-		&_left-bottom {
-			justify-content: end;
-			align-items: start;
-		}
+  // .row-furniture_center
 
-		// .row-furniture_center
+  &_center {
+    display: block;
+  }
 
-		&_center {
-			display: block;
-		}
+  // .row-furniture_right-top
 
-		// .row-furniture_right-top
+  &_right-top {
+    align-items: end;
+  }
 
-		&_right-top {
-			align-items: end;
-		}
+  // .row-furniture_right-bottom
 
-		// .row-furniture_right-bottom
+  &_right-bottom {
+    align-items: start;
+  }
 
-		&_right-bottom {
-			align-items: start;
-		}
+  // .row-furniture__item
 
-		// .row-furniture__item
-
-		&__item {
-			img{
-				max-width: initial
-			}
-			@media (any-hover: hover) {
-				img {
-					transition: all 0.8s ease 0s;
-					filter: grayscale(1);
-				}
-				&:hover{
-					img{
-						filter: grayscale(0);
-					}
-				}
-			}
-		}
+  &__item {
+    img {
+      max-width: initial;
+    }
+    @media (any-hover: hover) {
+      img {
+        transition: all 0.8s ease 0s;
+        filter: grayscale(1);
+      }
+      &:hover {
+        img {
+          filter: grayscale(0);
+        }
+      }
+    }
+  }
 }
