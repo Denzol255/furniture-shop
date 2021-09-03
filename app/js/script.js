@@ -122,7 +122,7 @@ window.onload = () => {
       document.querySelector('.products__footer').remove();
     }
 
-    // Click add to cart button
+    // Click on add to cart button
     if (
       target.matches('.actions-product__button') ||
       target.closest('.actions-product__button')
@@ -145,6 +145,13 @@ window.onload = () => {
     ) {
       onMenuLinkClick(target, e);
       cartList.classList.remove('_active-cart');
+    }
+    // Click on delete cart item
+    if (
+      target.matches('.item-list__delete') ||
+      target.closest('.item-list__delete')
+    ) {
+      deleteCartItem(target);
     }
 
     // Click on checkout button

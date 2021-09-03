@@ -413,10 +413,9 @@
     position: fixed;
     top: 90px;
     right: 0;
-    min-width: 290px;
+    width: 290px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     background-color: gray;
     color: #fff;
     padding: 20px 10px;
@@ -428,6 +427,9 @@
       transform: translate(0, 0);
       visibility: visible;
       opacity: 1;
+    }
+    &._not-empty {
+      width: 480px;
     }
     // &::after {
     //   content: '';
@@ -447,12 +449,28 @@
     @media (max-width: $md4) {
       top: 50px;
       width: 100%;
+      &._not-empty {
+        max-width: 100%;
+      }
     }
   }
 
   // .cart-header__list
 
   &__list {
+  }
+  &__controls {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+  }
+  &__clear-cart {
+    img {
+      width: 30px;
+      height: 30px;
+    }
   }
 }
 .cart-list,
@@ -464,8 +482,15 @@
   flex-direction: column;
   overflow: auto;
 }
+.cart-list {
+  margin-bottom: 30px;
+  padding-right: 10px;
+}
 .empty-cart {
   align-items: center;
+  &__text {
+    margin-bottom: 20px;
+  }
 }
 .empty-cart__to-products,
 .cart-header__checkout {
@@ -475,7 +500,6 @@
   width: 150px;
   height: 35px;
   background-color: $orangeColor;
-  margin-top: 10px;
   transition: all 0.3s ease 0s;
   @media (any-hover: hover) {
     &:hover {
@@ -483,16 +507,16 @@
     }
   }
 }
-.cart-header__checkout {
-}
 .item-list {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   &:not(:last-child) {
     margin-bottom: 10px;
   }
   &__title {
-    flex: 0 0 100px;
+    font-size: 24px;
+    flex: 0 0 120px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -502,10 +526,38 @@
         color: $orangeColor;
       }
     }
+    @media (max-width: $md4) {
+      font-size: 20px;
+      flex: 0 0 80px;
+    }
+  }
+  &__quantity {
+    font-size: 18px;
+    font-weight: 500;
+    color: $orangeColor;
+    @media (max-width: $md4) {
+      font-size: 16px;
+    }
   }
   &__price {
-    flex: 0 0 100px;
+    flex: 0 0 140px;
+    font-size: 18px;
     text-align: right;
+    @media (max-width: $md4) {
+      font-size: 16px;
+    }
+  }
+  &__delete {
+    display: flex;
+    align-items: center;
+    width: 25px;
+    height: 10px;
+    span {
+      display: inline-block;
+      width: 100%;
+      height: 2px;
+      background-color: #fff;
+    }
   }
 }
 

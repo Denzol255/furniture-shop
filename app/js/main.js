@@ -6,4 +6,4 @@
 @@include('smoothScroll.js', {});
 @@include('gallery.js', {});
 @@include('showMore.js', {});
-@@include('addToCart.js', {});
+@@include('cartConrtol.js', {});

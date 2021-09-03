@@ -4,17 +4,24 @@ let productList = [];
 
 const productsWrapper = document.querySelector('.cart-header__body');
 const productsUl = document.createElement('ul');
+const cartControlsBlock = document.createElement('div');
+const clearCartBtn = document.createElement('button');
 const checkoutBtn = document.createElement('a');
 
+productsUl.classList.add('cart-header__list', 'cart-list');
+cartControlsBlock.classList.add('cart-header__controls');
+clearCartBtn.classList.add('cart-header__clear-cart');
+checkoutBtn.setAttribute('href', '#');
+checkoutBtn.classList.add('cart-header__checkout');
+checkoutBtn.textContent = 'Checkout';
+
 const createEmptyCart = () => {
-  productsUl.classList.add('cart-header__list', 'cart-list');
-  checkoutBtn.setAttribute('href', '#');
-  checkoutBtn.classList.add('cart-header__checkout');
-  checkoutBtn.textContent = 'Checkout';
+  productsWrapper.textContent = '';
+  productsWrapper.classList.remove('_not-empty');
   productsWrapper.insertAdjacentHTML(
     'beforeend',
     `   <div class="cart-header__empty empty-cart">
-        <p class="empty-cart__text">There is no products here</p>
+        <p class="empty-cart__text">There is no products here...</p>
         <a class="empty-cart__to-products" data-goto=".products">Go to products</a>
       </div>
       `
@@ -27,8 +34,10 @@ const renderProducts = (data) => {
   if (!productsWrapper.classList.contains('_not-empty')) {
     productsWrapper.classList.add('_not-empty');
     productsWrapper.textContent = '';
-    document.querySelector('.cart-header__body').append(checkoutBtn);
-    document.querySelector('.cart-header__body').prepend(productsUl);
+    productsWrapper.append(cartControlsBlock);
+    productsWrapper.prepend(productsUl);
+    cartControlsBlock.append(clearCartBtn, checkoutBtn);
+    clearCartBtn.innerHTML = `<img src="img/icons/delete.svg" alt="" />`;
   }
 
   productsUl.textContent = '';
@@ -36,13 +45,14 @@ const renderProducts = (data) => {
   data.forEach((item) => {
     const li = document.createElement('li');
     li.classList.add('cart-list__item', 'item-list');
+    li.setAttribute('data-product', item.id);
     li.insertAdjacentHTML(
       'beforeend',
       `
 				<a href="#" class="item-list__title">${item.title}</a>
         <span class="item-list__quantity">${item.quantity}</span>
 				<span class="item-list__price">${item.price}</span>
-
+        <button type="button" class ="item-list__delete"><span></span></button>
 			`
     );
     productsUl.append(li);
@@ -146,8 +156,34 @@ const addToCart = (target) => {
         if (hasProduct) {
           productList.push(newProduct);
         }
+
         renderProducts(productList);
       }
     }
   });
+};
+
+const deleteCartItem = (target) => {
+  if (productList.length > 0) {
+    //const cartProductLi = target.parentNode.parentNode;
+    const cartProductLiDataset =
+      target.parentNode.parentNode.dataset.product ??
+      target.parentNode.dataset.product;
+    const indexOfProduct = productList.findIndex(
+      (el) => el.id === cartProductLiDataset
+    );
+    if (productList[indexOfProduct].quantity > 1) {
+      productList[indexOfProduct].quantity--;
+    } else {
+      productList.splice(indexOfProduct, 1);
+    }
+    renderProducts(productList);
+    // if (productList.length <= 0) {
+    //   createEmptyCart();
+    // } else {
+    //   renderProducts(productList);
+    // }
+
+    console.log(productList);
+  }
 };
