@@ -154,6 +154,14 @@ window.onload = () => {
       deleteCartItem(target);
     }
 
+    //Click on clear-cart button
+    if (
+      target.matches('.cart-header__clear-cart img') ||
+      target.closest('.cart-header__clear-cart img')
+    ) {
+      clearCart();
+    }
+
     // Click on checkout button
     if (target.matches('.cart-header__checkout')) {
     }

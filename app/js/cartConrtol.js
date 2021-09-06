@@ -1,6 +1,10 @@
 // Render product cart
 
-let productList = [];
+let productList = JSON.parse(localStorage.getItem('cart')) ?? [];
+const quantityAllItems =
+  productList.length > 0
+    ? productList.reduce((acc, current) => acc + current.quantity, 0)
+    : 0;
 
 const productsWrapper = document.querySelector('.cart-header__body');
 const productsUl = document.createElement('ul');
@@ -56,15 +60,24 @@ const renderProducts = (data) => {
 			`
     );
     productsUl.append(li);
-    // localStorage.setItem('cart', JSON.stringify(data));
+    localStorage.setItem('cart', JSON.stringify(data));
   });
 };
 
-// const oldData = localStorage.getItem('cart');
-// if (oldData) {
-//   productList = JSON.parse(oldData);
-//   renderProducts(productList);
-// }
+productList.length > 0 ? renderProducts(productList) : null;
+
+const createCartQuantity = (quantity) => {
+  if (quantity) {
+    document
+      .querySelector('.cart-header')
+      .insertAdjacentHTML(
+        'beforeend',
+        `<span class="cart-header__quantity">${quantity}</span>`
+      );
+  }
+};
+
+createCartQuantity(quantityAllItems);
 
 const addFlyingEffect = (product, target) => {
   const cartHeaderIcon = document.querySelector('.cart-header__icon');
@@ -107,12 +120,15 @@ const addFlyingEffect = (product, target) => {
   });
 };
 
-const changeCartQuantity = () => {
+const changeCartQuantity = (changing) => {
   const cart = document.querySelector('.cart-header');
   const cartQuantity = document.querySelector('.cart-header__quantity');
-
-  if (cartQuantity) {
+  if (cartQuantity && changing === '++') {
     cartQuantity.innerHTML = ++cartQuantity.innerHTML;
+  } else if (cartQuantity && changing === '--') {
+    cartQuantity.innerHTML = --cartQuantity.innerHTML;
+  } else if (cartQuantity && changing === 'remove') {
+    cartQuantity.remove();
   } else {
     cart.insertAdjacentHTML(
       'beforeend',
@@ -144,7 +160,7 @@ const addToCart = (target) => {
 
         target.classList.add('_hold');
         addFlyingEffect(item, target);
-        changeCartQuantity();
+        changeCartQuantity('++');
         if (productList.length > 0) {
           productList.forEach((product) => {
             if (product.id === newProduct.id) {
@@ -165,7 +181,6 @@ const addToCart = (target) => {
 
 const deleteCartItem = (target) => {
   if (productList.length > 0) {
-    //const cartProductLi = target.parentNode.parentNode;
     const cartProductLiDataset =
       target.parentNode.parentNode.dataset.product ??
       target.parentNode.dataset.product;
@@ -177,13 +192,21 @@ const deleteCartItem = (target) => {
     } else {
       productList.splice(indexOfProduct, 1);
     }
-    renderProducts(productList);
-    // if (productList.length <= 0) {
-    //   createEmptyCart();
-    // } else {
-    //   renderProducts(productList);
-    // }
+    changeCartQuantity('--');
 
-    console.log(productList);
+    if (productList.length <= 0) {
+      changeCartQuantity('remove');
+      createEmptyCart();
+      localStorage.removeItem('cart');
+    } else {
+      renderProducts(productList);
+    }
   }
+};
+
+const clearCart = () => {
+  productList = [];
+  localStorage.removeItem('cart');
+  changeCartQuantity('remove');
+  createEmptyCart();
 };
