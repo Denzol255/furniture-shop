@@ -36,7 +36,9 @@
     "imagemin-webp": "^6.0.0",
     "ismobilejs": "^1.1.1",
     "normalize.css": "^8.0.1",
-    "swiper": "^6.7.0",
     "webp-converter": "^2.2.3"
+  },
+  "dependencies": {
+    "swiper": "^7.2.0"
   }
 }

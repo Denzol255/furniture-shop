@@ -55,12 +55,13 @@ const renderProducts = (data) => {
       `
 				<a href="#" class="item-list__title">${item.title}</a>
         <span class="item-list__quantity">${item.quantity}</span>
-				<span class="item-list__price">${item.price}</span>
+				<span class="item-list__price">Rp ${item.price}</span>
         <button type="button" class ="item-list__delete"><span></span></button>
 			`
     );
     productsUl.append(li);
     localStorage.setItem('cart', JSON.stringify(data));
+    console.log(data);
   });
 };
 
@@ -149,11 +150,16 @@ const addToCart = (target) => {
         const productPrice = item.querySelector(
           '.item-product__price_real'
         ).textContent;
+        let numberOfProductPrice = productPrice.split(' ')[1];
+        numberOfProductPrice = +numberOfProductPrice
+          .split('')
+          .filter((item) => item !== '.')
+          .join('');
         const productId = item.dataset.pr;
         const newProduct = {
           id: productId,
           title: productTitle,
-          price: productPrice,
+          price: numberOfProductPrice,
           quantity: 1,
         };
         let hasProduct = true;
@@ -165,6 +171,7 @@ const addToCart = (target) => {
           productList.forEach((product) => {
             if (product.id === newProduct.id) {
               product.quantity++;
+              product.price += numberOfProductPrice;
               hasProduct = !hasProduct;
             }
           });
@@ -187,7 +194,12 @@ const deleteCartItem = (target) => {
     const indexOfProduct = productList.findIndex(
       (el) => el.id === cartProductLiDataset
     );
+    // To find price of 1 product -- totalPrice / totalQuantity, variable assignment breaks code
     if (productList[indexOfProduct].quantity > 1) {
+      productList[indexOfProduct].price =
+        productList[indexOfProduct].price -
+        productList[indexOfProduct].price /
+          productList[indexOfProduct].quantity;
       productList[indexOfProduct].quantity--;
     } else {
       productList.splice(indexOfProduct, 1);
@@ -210,3 +222,11 @@ const clearCart = () => {
   changeCartQuantity('remove');
   createEmptyCart();
 };
+
+const showCheckoutWindow = () => {
+  modal.classList.add('_active');
+  loader.classList.add('_active');
+  document.body.classList.add('_scroll--lock');
+};
+
+console.log(productList);

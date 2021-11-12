@@ -1,9 +1,9 @@
-@@include('../../node_modules\swiper\swiper-bundle.min.js', {});
-@@include('script.js', {});
+@@include('../../node_modules/swiper/swiper-bundle.min.js', {});
 @@include('spollers.js', {});
-@@include('sendForm.js', {});
 @@include('sliders.js', {});
 @@include('smoothScroll.js', {});
 @@include('gallery.js', {});
 @@include('showMore.js', {});
+@@include('sendFormAndCheckout.js', {});
 @@include('cartConrtol.js', {});
+@@include('clicks.js', {});

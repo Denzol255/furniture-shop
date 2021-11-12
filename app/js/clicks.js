@@ -68,8 +68,8 @@ window.onload = () => {
   // Main script ==========================================================================================
   // Actions for click
   document.addEventListener('click', (e) => {
-    e.preventDefault();
     const target = e.target;
+    e.preventDefault();
 
     // Variables, which we get after click on needed target
     const galleryPopupContentImages = document.querySelectorAll(
