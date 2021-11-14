@@ -164,6 +164,7 @@ window.onload = () => {
 
     // Click on checkout button
     if (target.matches('.cart-header__checkout')) {
+      showCheckoutWindow();
     }
 
     // Gallery

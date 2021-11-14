@@ -4,6 +4,6 @@
 @@include('smoothScroll.js', {});
 @@include('gallery.js', {});
 @@include('showMore.js', {});
-@@include('sendFormAndCheckout.js', {});
+@@include('sendForm.js', {});
 @@include('cartConrtol.js', {});
 @@include('clicks.js', {});

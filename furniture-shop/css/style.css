@@ -984,6 +984,113 @@ button {
           flex: 0 1 100%;
 }
 
+.checkout-modal {
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 400px;
+  height: 600px;
+  background-color: #e89f71;
+  padding: 20px;
+  color: #fff;
+  line-height: 150%;
+}
+
+.checkout-modal._active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.checkout-modal__title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #3a3a3a;
+}
+
+.checkout-modal__bottom {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.checkout-modal__text {
+  font-size: 18px;
+}
+
+.checkout-modal__total-price {
+  font-size: 22px;
+}
+
+.checkout-modal__payment {
+  font-size: 24px;
+  text-align: center;
+  margin: 30px 0 0;
+}
+
+.list-modal {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  max-height: 400px;
+  counter-reset: item;
+  margin-bottom: 10px;
+  overflow: auto;
+}
+
+.list-modal__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.list-modal__item:not(:last-child) {
+  margin: 0 0 10px;
+}
+
+.list-modal__title {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 35%;
+          flex: 0 0 35%;
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+  font-size: 22px;
+}
+
+.list-modal__title::before {
+  font-size: 22px;
+  counter-increment: item;
+  content: counter(item) ". ";
+}
+
+.list-modal__quantity {
+  font-size: 26px;
+  margin: 0 5px;
+}
+
+.list-modal__price {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 140px;
+          flex: 0 0 140px;
+  font-size: 22px;
+}
+
 .gallery-popup {
   -webkit-overflow-scrolling: touch;
   z-index: 100;

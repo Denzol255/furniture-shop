@@ -107,3 +107,101 @@
     flex: 0 1 100%;
   }
 }
+
+.checkout-modal {
+  display: none;
+  flex-direction: column;
+  width: 400px;
+  height: 600px;
+  background-color: $orangeColor;
+  padding: 20px;
+  color: #fff;
+  line-height: 150%;
+
+  &._active {
+    display: flex;
+  }
+
+  // .checkout-modal__title
+
+  &__title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: $mainColor;
+  }
+
+  // .checkout-modal__list
+
+  &__list {
+  }
+
+  // .checkout-modal__bottom
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  // .checkout-modal__text
+
+  &__text {
+    font-size: 18px;
+  }
+
+  // .checkout-modal__total-price
+
+  &__total-price {
+    font-size: 22px;
+  }
+
+  // .checkout-modal__payment
+
+  &__payment {
+    font-size: 24px;
+    text-align: center;
+    margin: 30px 0 0;
+  }
+}
+
+.list-modal {
+  flex: 1 1 auto;
+  max-height: 400px;
+  counter-reset: item;
+  margin-bottom: 10px;
+  overflow: auto;
+
+  &__item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    &:not(:last-child) {
+      margin: 0 0 10px;
+    }
+  }
+
+  &__title {
+    flex: 0 0 35%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 22px;
+
+    &::before {
+      font-size: 22px;
+      counter-increment: item;
+      content: counter(item) '. ';
+    }
+  }
+
+  &__quantity {
+    font-size: 26px;
+    margin: 0 5px;
+  }
+
+  &__price {
+    flex: 0 0 140px;
+    font-size: 22px;
+  }
+}

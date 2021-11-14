@@ -630,6 +630,9 @@ const productsUl = document.createElement('ul');
 const cartControlsBlock = document.createElement('div');
 const clearCartBtn = document.createElement('button');
 const checkoutBtn = document.createElement('a');
+const checkoutModal = document.querySelector('.checkout-modal');
+const checkoutList = document.querySelector('.list-modal');
+const totalPrice = document.querySelector('.checkout-modal__total-price');
 
 productsUl.classList.add('cart-header__list', 'cart-list');
 cartControlsBlock.classList.add('cart-header__controls');
@@ -846,6 +849,31 @@ const showCheckoutWindow = () => {
   modal.classList.add('_active');
   loader.classList.add('_active');
   document.body.classList.add('_scroll--lock');
+
+  setTimeout(() => {
+    let sum = 0;
+    productList.forEach((item) => {
+      let listItem = `<li class="list-modal__item">
+            <span class="list-modal__title">${item.title}</span>
+            <span class="list-modal__quantity">${item.quantity}</span>
+            <span class="list-modal__price">Rp ${item.price}</span>
+          </li>`;
+      checkoutList.innerHTML += listItem;
+      sum += item.price;
+    });
+
+    totalPrice.innerHTML = sum;
+
+    loader.classList.remove('_active');
+    checkoutModal.classList.add('_active');
+    setTimeout(() => {
+      modal.classList.remove('_active');
+      checkoutModal.classList.remove('_active');
+      document.body.classList.remove('_scroll--lock');
+      clearCart();
+      checkoutList.innerHTML = '';
+    }, 3000);
+  }, 3000);
 };
 
 console.log(productList);
@@ -1016,6 +1044,7 @@ window.onload = () => {
 
     // Click on checkout button
     if (target.matches('.cart-header__checkout')) {
+      showCheckoutWindow();
     }
 
     // Gallery
